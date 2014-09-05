@@ -1,6 +1,8 @@
 #' @export
 mxeqtl <-
-function(snp_file,snp_location,expr_file,expr_location,cis_output_file,cis_pval,covariates="",trans_output_file="", trans_pval=0, model="linear", MAF=0, cis_dist=1e6)
+function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
+         cis_pval,covariates="",trans_output_file="", trans_pval=0, 
+         model="linear", MAF=0, cis_dist=1e6)
 {
 # Matrix eQTL function based on the sample code by Andrey A. Shabalin
 # http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
