@@ -7,8 +7,6 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 # Matrix eQTL function based on the sample code by Andrey A. Shabalin
 # http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
 
-#base.dir<-"./";
-
 # Linear model to use, modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 if (model=="linear")
@@ -27,14 +25,10 @@ else if (model=="linear_cross")
 missing_data=missing;
 
 # Genotype file name
-#SNP_file_name = paste(base.dir,snp_file,sep="");
 SNP_file_name = snp_file;
-#snps_location_file_name = paste(base.dir,snp_location,sep="");
 snps_location_file_name = snp_location;
 
 # Gene expression file name
-#expression_file_name = paste(base.dir,expr_file,sep="");
-#gene_location_file_name = paste(base.dir,expr_location,sep="");
 expression_file_name = expr_file;
 gene_location_file_name = expr_location;
 
@@ -43,7 +37,7 @@ gene_location_file_name = expr_location;
 # Set to character() for no covariates
 if (covariates!="")
 {
-	covariates_file_name = paste(base.dir,covaraites,sep="");
+	#covariates_file_name = paste(base.dir,covaraites,sep="");
   covariates_file_name = covariates;
 }
 else
@@ -52,11 +46,9 @@ else
 }
 # Output file name
 output_file_name = tempfile();
-#output_file_name_cis = paste(base.dir,cis_output_file,sep="")
 output_file_name_cis = cis_output_file;
 if (trans_output_file!="")
 {
-	#output_file_name_tra = paste(base.dir,trans_output_file,sep="");
   output_file_name_tra = trans_output_file;
 }
 else
