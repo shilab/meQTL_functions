@@ -2,12 +2,12 @@
 mxeqtl <-
 function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
          cis_pval,covariates="",trans_output_file="", trans_pval=0, 
-         model="linear", MAF=0, cis_dist=1e6)
+         model="linear", MAF=0, cis_dist=1e6, missing="NA")
 {
 # Matrix eQTL function based on the sample code by Andrey A. Shabalin
 # http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
 
-base.dir<-"./";
+#base.dir<-"./";
 
 # Linear model to use, modelANOVA, modelLINEAR, or modelLINEAR_CROSS
 # modelANOVA, modelLINEAR, or modelLINEAR_CROSS
@@ -24,19 +24,27 @@ else if (model=="linear_cross")
 	useModel = modelLINEAR_CROSS
 }
 
+missing_data=missing;
+
 # Genotype file name
-SNP_file_name = paste(base.dir,snp_file,sep="");
-snps_location_file_name = paste(base.dir,snp_location,sep="");
+#SNP_file_name = paste(base.dir,snp_file,sep="");
+SNP_file_name = snp_file;
+#snps_location_file_name = paste(base.dir,snp_location,sep="");
+snps_location_file_name = snp_location;
 
 # Gene expression file name
-expression_file_name = paste(base.dir,expr_file,sep="");
-gene_location_file_name = paste(base.dir,expr_location,sep="");
+#expression_file_name = paste(base.dir,expr_file,sep="");
+#gene_location_file_name = paste(base.dir,expr_location,sep="");
+expression_file_name = expr_file;
+gene_location_file_name = expr_location;
+
 
 # Covariates file name
 # Set to character() for no covariates
 if (covariates!="")
 {
 	covariates_file_name = paste(base.dir,covaraites,sep="");
+  covariates_file_name = covariates;
 }
 else
 {
@@ -44,10 +52,12 @@ else
 }
 # Output file name
 output_file_name = tempfile();
-output_file_name_cis = paste(base.dir,cis_output_file,sep="")
+#output_file_name_cis = paste(base.dir,cis_output_file,sep="")
+output_file_name_cis = cis_output_file;
 if (trans_output_file!="")
 {
-	output_file_name_tra = paste(base.dir,trans_output_file,sep="")
+	#output_file_name_tra = paste(base.dir,trans_output_file,sep="");
+  output_file_name_tra = trans_output_file;
 }
 else
 {
@@ -70,7 +80,7 @@ cisDist = cis_dist;
 ## Load genotype data
 snps = SlicedData$new();
 snps$fileDelimiter = "\t";      # the TAB character
-snps$fileOmitCharacters = "NA"; # denote missing values;
+snps$fileOmitCharacters = missing; # denote missing values;
 snps$fileSkipRows = 1;          # one row of column labels
 snps$fileSkipColumns = 1;       # one column of row labels
 snps$fileSliceSize = 2000;      # read file in slices of 2,000 rows
@@ -98,7 +108,7 @@ if (MAF>0)
 ## Load gene expression data
 gene = SlicedData$new();
 gene$fileDelimiter = "\t";      # the TAB character
-gene$fileOmitCharacters = "NA"; # denote missing values;
+gene$fileOmitCharacters = missing; # denote missing values;
 gene$fileSkipRows = 1;          # one row of column labels
 gene$fileSkipColumns = 1;       # one column of row labels
 gene$fileSliceSize = 2000;      # read file in slices of 2,000 rows
@@ -107,7 +117,7 @@ gene$LoadFile(expression_file_name);
 ## Load covariates
 cvrt = SlicedData$new();
 cvrt$fileDelimiter = "\t";      # the TAB character
-cvrt$fileOmitCharacters = "NA"; # denote missing values;
+cvrt$fileOmitCharacters = missing; # denote missing values;
 cvrt$fileSkipRows = 1;          # one row of column labels
 cvrt$fileSkipColumns = 1;       # one column of row labels
 if(length(covariates_file_name)>0) {

@@ -10,7 +10,8 @@
 \usage{
 mxeqtl(snp_file, snp_location, expr_file, expr_location, 
 cis_output_file, cis_pval, covariates = "", trans_output_file = "",
-trans_pval = 0, model = "linear", MAF = 0, cis_dist = 1e+06)
+trans_pval = 0, model = "linear", MAF = 0, cis_dist = 1e+06,
+missing="NA")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -52,6 +53,9 @@ File that contains expression location data. Required.
   \item{cis_dist}{
     Maximum distance for cis eQTLs. Default is 1 megabase (1e6 pb).
 }
+  \item{missing}{
+    String for missing data. Default is NA.
+  }
 }
 \details{
     Optional arguments need to be called with their name.

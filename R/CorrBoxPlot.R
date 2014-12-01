@@ -41,8 +41,11 @@ CorrBoxPlot <-
     
     if (visual){ #Perform the plots
       #There can be three values (unphased) or four (phased)
-      pdf(paste('./',pdf_file,sep=""))
-      par(mfcol = c(2, 2))
+      if (pdf_file!="")
+      {
+        pdf(paste('./',pdf_file,sep=""))
+        par(mfcol = c(2, 2))
+      }
       genotypes <- range(genot[,2:ncol(genot)])[1]:range(genot[,2:ncol(genot)])[2]
       for (i in 1:nrow(eqtls)){
         #Prepare the matrix
@@ -63,7 +66,10 @@ CorrBoxPlot <-
                   main=paste(as.character(eqtls$snps[i])," - ",as.character(eqtls$gene[i])))
         }
       }
-      dev.off()
+      if (pdf_file!="")
+      {
+        dev.off()
+      }
     }
     return(corr)
   }
