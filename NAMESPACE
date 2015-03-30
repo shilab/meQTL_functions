@@ -3,3 +3,4 @@
 export(CorrBoxPlot)
 export(CorrScatterPlot)
 export(mxeqtl)
+import(MatrixEQTL)
