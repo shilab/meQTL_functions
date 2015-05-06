@@ -6,8 +6,10 @@ CorrBoxPlot <-
     #   threshold - FDR cutoff, only those eQTLs with equal or lower threshold will be taken into account
     #   expr      - Transcript expression dataset
     #   genot     - Genotyping dataset, either phased or unphased variants
-    #   cis       - If TRUE only cis eQTLs are considered, otherwise trans eQTLS (default TRUE)
     #   visual    - If TRUE the script will display a box plot figure for each eQTL above the threshold
+    #   pdf_file  - Filename for plots
+    #   crlt      - Correlation cutoff (default 0)
+    #   cis       - If TRUE only cis eQTLs are considered, otherwise trans eQTLS (default TRUE)
     #
     # Output: A vector with Pearson correlation scores for each eQTL that surpasses the given threshold
     #
@@ -18,8 +20,7 @@ CorrBoxPlot <-
     # expr and genot datafiles are in the matrixEQTL format and can be loaded as:
     # expr = read.table(file_name, header = TRUE, stringsAsFactors = FALSE);
     #
-    # R. Armananzas - Last update 12/02/13
-    #
+    # R. Armananzas and Andrew Quitadamo
     
     
     corr  <- NULL; phenotype <- NULL; genotype <- NULL; phenotype_new<-NULL;
@@ -55,8 +56,6 @@ CorrBoxPlot <-
           values[[j]] <- pheno[which(genotype[[i]]==genotypes[j])]
         }
         #Plot the boxplots
-        #if (length(genotypes)==3){cats=c(0,1,2)}
-        #else {cats=c(0,1,2,3,4)}
         cats=seq(0,length(genotypes)-1)
         if (abs(corr[i])>=crlt)
         {
