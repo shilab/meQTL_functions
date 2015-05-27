@@ -1,5 +1,6 @@
 #' @export
-CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE){
+CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE)
+{
   # Inputs:
   #   mEQTL     - Matrix EQTL object with the eQTLs already collected
   #   threshold - FDR cutoff, only those eQTLs with equal or lower threshold will be taken into account
@@ -23,32 +24,38 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE){
   
   corr  <- NULL; phenotype <- NULL; genotype <- NULL
   
-  if (cis==TRUE){
+  if (cis==TRUE)
+  {
     index <- which(mEQTL$cis$eqtls$FDR<=threshold)
     eqtls <- mEQTL$cis$eqtls[index,]
   }
-  else{
+  else
+  {
     index <- which(mEQTL$trans$eqtls$FDR<=threshold)
     eqtls <- mEQTL$trans$eqtls[index,]    
   }
   
-  for (i in 1:nrow(eqtls)){
+  for (i in 1:nrow(eqtls))
+  {
     phenotype[[i]] <- expr[which(expr$geneid==as.character(eqtls$gene[i])),2:ncol(expr)]
     genotype[[i]]  <- genot[which(genot$snpid==as.character(eqtls$snps[i])),2:ncol(genot)]
     corr[i]   <- cor(as.numeric(phenotype[[i]]),as.numeric(genotype[[i]]))
   }
   
-  if (visual){ #Perform the plots
+  if (visual)
+  { #Perform the plots
     #There can be three values (unphased) or four (phased)
     genotypes <- range(genot[,2:ncol(genot)])[1]:range(genot[,2:ncol(genot)])[2]
-    for (i in 1:nrow(eqtls)){
+    for (i in 1:nrow(eqtls))
+    {
       #Prepare the matrix
       geno <- as.numeric(genotype[[i]])
       pheno <- as.numeric(phenotype[[i]])
       #      geno
       #      pdf("scatterplot.pdf")
       values <- NULL;
-      for (j in 1:length(genotypes)){
+      for (j in 1:length(genotypes))
+      {
         values[[j]] <- pheno[which(genotype[[i]]==genotypes[j])]
       }
       #      #Plot the boxplots
