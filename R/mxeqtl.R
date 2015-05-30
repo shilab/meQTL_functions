@@ -9,6 +9,17 @@ setSNPOptions <- function(sep,missing)
 	return(snps);
 }
 
+setGeneOptions <- function(sep,missing)
+{
+    gene = SlicedData$new();
+    gene$fileDelimiter = sep;
+    gene$fileOmitCharacters = missing; 
+    gene$fileSkipRows = 1;
+    gene$fileSkipColumns = 1;
+    gene$fileSliceSize = 2000;
+	return(gene);
+}
+
 
 setModel <-function(model)
 {
@@ -106,13 +117,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
 	snps$SaveFile("meQTL_filtered_input")
 
-	# Load gene expression data
-	gene = SlicedData$new();
-	gene$fileDelimiter = sep;
-	gene$fileOmitCharacters = missing; # denote missing values;
-	gene$fileSkipRows = 1;          # one row of column labels
-	gene$fileSkipColumns = 1;       # one column of row labels
-	gene$fileSliceSize = 2000;      # read file in slices of 2,000 rows
+	gene=setGeneOptions(sep,missing);
 	gene$LoadFile(expression_file_name);
 
 	# Load covariates
