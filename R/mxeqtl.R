@@ -22,7 +22,7 @@ setModel <-function(model)
 mxeqtl <-
 function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
          cis_pval,covariates="",trans_output_file="", trans_pval=0, 
-         model="linear", MAF=0, cis_dist=1e6, qq="")
+         model="linear", MAF=0, cis_dist=1e6, qq="",missing="NA")
 {
 	# Matrix eQTL function based on the sample code by Andrey A. Shabalin
 	# http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
@@ -74,7 +74,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	## Load genotype data
 	snps = SlicedData$new();
 	snps$fileDelimiter = "\t";      # the TAB character
-	snps$fileOmitCharacters = "NA"; # denote missing values;
+	snps$fileOmitCharacters = missing; # denote missing values;
 	snps$fileSkipRows = 1;          # one row of column labels
 	snps$fileSkipColumns = 1;       # one column of row labels
 	snps$fileSliceSize = 2000;      # read file in slices of 2,000 rows
@@ -105,7 +105,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	# Load gene expression data
 	gene = SlicedData$new();
 	gene$fileDelimiter = "\t";      # the TAB character
-	gene$fileOmitCharacters = "NA"; # denote missing values;
+	gene$fileOmitCharacters = missing; # denote missing values;
 	gene$fileSkipRows = 1;          # one row of column labels
 	gene$fileSkipColumns = 1;       # one column of row labels
 	gene$fileSliceSize = 2000;      # read file in slices of 2,000 rows
@@ -114,7 +114,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	# Load covariates
 	cvrt = SlicedData$new();
 	cvrt$fileDelimiter = "\t";      # the TAB character
-	cvrt$fileOmitCharacters = "NA"; # denote missing values;
+	cvrt$fileOmitCharacters = missing; # denote missing values;
 	cvrt$fileSkipRows = 1;          # one row of column labels
 	cvrt$fileSkipColumns = 1;       # one column of row labels
 	if(length(covariates_file_name)>0)
