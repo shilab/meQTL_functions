@@ -13,3 +13,12 @@ test_that("setSNPOptions function works", {
     expect_equal(snps$fileDelimiter, " ")
     expect_equal(snps$fileOmitCharacters, "NaN")
 })
+
+test_that("setGeneOptions function works", {
+    gene<-setGeneOptions("\t", "NA")
+    expect_equal(gene$fileDelimiter, "\t")
+    expect_equal(gene$fileOmitCharacters, "NA")
+    gene<-setGeneOptions(" ", "NaN")
+    expect_equal(gene$fileDelimiter, " ")
+    expect_equal(gene$fileOmitCharacters, "NaN")
+})
