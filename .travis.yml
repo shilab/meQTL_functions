@@ -2,6 +2,8 @@ language: r
 
 warnings_are_errors: true
 
-r_packages: MatrixEQTL
+r_packages: 
+    - MatrixEQTL
 
-r_binary_packages: testthat
+r_binary_packages: 
+    - testthat
