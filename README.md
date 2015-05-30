@@ -1,3 +1,9 @@
+###Installing
+meQTLfunc can be installed by using the devtools package.
+```
+install_github('shilab/meQTL_functions')
+```
+
 ``` {.r}
 library(MatrixEQTL)
 library(meQTLfunc)
