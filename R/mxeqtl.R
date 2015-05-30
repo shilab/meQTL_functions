@@ -20,6 +20,15 @@ setGeneOptions <- function(sep,missing)
 	return(gene);
 }
 
+setCovariateOptions <- function(sep,missing)
+{
+    cvrt = SlicedData$new();
+    cvrt$fileDelimiter = sep;
+    cvrt$fileOmitCharacters = missing;
+    cvrt$fileSkipRows = 1;
+    cvrt$fileSkipColumns = 1;
+	return(cvrt);
+}
 
 setModel <-function(model)
 {
@@ -120,12 +129,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	gene=setGeneOptions(sep,missing);
 	gene$LoadFile(expression_file_name);
 
-	# Load covariates
-	cvrt = SlicedData$new();
-	cvrt$fileDelimiter = sep;
-	cvrt$fileOmitCharacters = missing; # denote missing values;
-	cvrt$fileSkipRows = 1;          # one row of column labels
-	cvrt$fileSkipColumns = 1;       # one column of row labels
+	cvrt = setCovariateOptions(sep, missing);
 	if(length(covariates_file_name)>0)
 	{
 		cvrt$LoadFile(covariates_file_name);
