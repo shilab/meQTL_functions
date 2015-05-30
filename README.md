@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/shilab/meQTL_functions.svg?branch=master)](https://travis-ci.org/shilab/meQTL_functions)
+
 ###Installing
 meQTLfunc can be installed by using the devtools package.
 ```
