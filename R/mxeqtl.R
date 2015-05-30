@@ -1,3 +1,15 @@
+setSNPOptions <- function(sep,missing)
+{
+    snps = SlicedData$new();
+    snps$fileDelimiter = sep;
+    snps$fileOmitCharacters = missing;
+    snps$fileSkipRows = 1;
+    snps$fileSkipColumns = 1;
+    snps$fileSliceSize = 2000;
+	return(snps);
+}
+
+
 setModel <-function(model)
 {
     if (model=="linear")
@@ -69,13 +81,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	# Distance for local gene-SNP pairs
 	cisDist = cis_dist;
 
-	## Load genotype data
-	snps = SlicedData$new();
-	snps$fileDelimiter = sep;
-	snps$fileOmitCharacters = missing; # denote missing values;
-	snps$fileSkipRows = 1;          # one row of column labels
-	snps$fileSkipColumns = 1;       # one column of row labels
-	snps$fileSliceSize = 2000;      # read file in slices of 2,000 rows
+	snps = setSNPOptions(sep,missing);
 	snps$LoadFile(SNP_file_name);
 
 	if (MAF>0)
