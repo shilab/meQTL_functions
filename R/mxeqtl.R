@@ -1,3 +1,23 @@
+setModel <-function(model)
+{
+    if (model=="linear")
+    {
+       return(modelLINEAR)
+    }
+    else if (model=="anova")
+    {
+       return(modelANOVA)
+    }
+    else if (model=="linear_cross")
+    {
+       return(modelLINEAR_CROSS)
+    }
+	else
+	{
+		stop('Model must be linear, anova or linear_cross');
+	}
+}
+
 #' @export
 mxeqtl <-
 function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
@@ -9,19 +29,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
 	base.dir<-"./";
 
-	# Set model
-	if (model=="linear")
-	{
-		useModel = modelLINEAR 
-	}
-	else if (model=="anova")
-	{
-		useModel = modelANOVA
-	}
-	else if (model=="linear_cross")
-	{
-		useModel = modelLINEAR_CROSS
-	}
+	useModel = setModel(model)
 
 	# Genotype file name
 	SNP_file_name = paste(base.dir,snp_file,sep="");
