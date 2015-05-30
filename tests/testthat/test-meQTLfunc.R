@@ -22,3 +22,12 @@ test_that("setGeneOptions function works", {
     expect_equal(gene$fileDelimiter, " ")
     expect_equal(gene$fileOmitCharacters, "NaN")
 })
+
+test_that("setCovariateOptions function works", {
+    cvrt<-setCovariateOptions("\t", "NA")
+    expect_equal(cvrt$fileDelimiter, "\t")
+    expect_equal(cvrt$fileOmitCharacters, "NA")
+    cvrt<-setCovariateOptions(" ", "NaN")
+    expect_equal(cvrt$fileDelimiter, " ")
+    expect_equal(cvrt$fileOmitCharacters, "NaN")
+})
