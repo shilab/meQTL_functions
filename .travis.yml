@@ -1,7 +1,5 @@
 language: r
 
-warnings_are_errors: true
-
 r_packages: 
     - MatrixEQTL
 
