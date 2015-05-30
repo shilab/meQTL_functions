@@ -1,2 +1,2 @@
 library(testthat)
-test_check("meQTLfunc")
+test_test("meQTLfunc")
