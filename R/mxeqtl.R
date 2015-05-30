@@ -27,22 +27,20 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	# Matrix eQTL function based on the sample code by Andrey A. Shabalin
 	# http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
 
-	base.dir<-"./";
-
 	useModel = setModel(model)
 
 	# Genotype file name
-	SNP_file_name = paste(base.dir,snp_file,sep="");
-	snps_location_file_name = paste(base.dir,snp_location,sep="");
+	SNP_file_name = snp_file
+	snps_location_file_name = snp_location
 
 	# Gene expression file name
-	expression_file_name = paste(base.dir,expr_file,sep="");
-	gene_location_file_name = paste(base.dir,expr_location,sep="");
+	expression_file_name = expr_file
+	gene_location_file_name = expr_location
 
 	# Covariates file name
 	if (covariates!="")
 	{
-		covariates_file_name = paste(base.dir,covariates,sep="");
+		covariates_file_name = covariates;
 		cat(covariates_file_name,'\n');
 	}
 	else
@@ -51,14 +49,14 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	}
 	# Output file name
 	output_file_name = tempfile();
-	output_file_name_cis = paste(base.dir,cis_output_file,sep="")
+	output_file_name_cis = cis_output_file
 	if (trans_output_file!="")
 	{
-		output_file_name_tra = paste(base.dir,trans_output_file,sep="")
+		output_file_name_tra = trans_output_file;
 	}
 	else
 	{
-		output_file_name_tra = "./onlyTRANSresults.txt"
+		output_file_name_tra = "onlyTRANSresults.txt"
 	}
 
 	# Set p-value levels
@@ -100,7 +98,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 		cat('SNPs after filtering:',nrow(snps),'\n')
 	}
 
-	snps$SaveFile("./meQTL_filtered_input")
+	snps$SaveFile("meQTL_filtered_input")
 
 	# Load gene expression data
 	gene = SlicedData$new();
