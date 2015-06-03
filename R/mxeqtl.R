@@ -1,4 +1,4 @@
-setSNPOptions <- function(sep,missing)
+setFileOptions <- function(sep,missing)
 {
     snps = SlicedData$new();
     snps$fileDelimiter = sep;
@@ -6,28 +6,18 @@ setSNPOptions <- function(sep,missing)
     snps$fileSkipRows = 1;
     snps$fileSkipColumns = 1;
     snps$fileSliceSize = 2000;
-	return(snps);
-}
-
-setGeneOptions <- function(sep,missing)
-{
     gene = SlicedData$new();
     gene$fileDelimiter = sep;
     gene$fileOmitCharacters = missing; 
     gene$fileSkipRows = 1;
     gene$fileSkipColumns = 1;
     gene$fileSliceSize = 2000;
-	return(gene);
-}
-
-setCovariateOptions <- function(sep,missing)
-{
     cvrt = SlicedData$new();
     cvrt$fileDelimiter = sep;
     cvrt$fileOmitCharacters = missing;
     cvrt$fileSkipRows = 1;
     cvrt$fileSkipColumns = 1;
-	return(cvrt);
+	return(list("snps"=snps,"gene"=gene,"cvrt"=cvrt))
 }
 
 setModel <-function(model)
@@ -101,7 +91,8 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	# Distance for local gene-SNP pairs
 	cisDist = cis_dist;
 
-	snps = setSNPOptions(sep,missing);
+	fileOptions = setFileOptions(sep,missing);
+	snps = fileOptions$snps;
 	snps$LoadFile(SNP_file_name);
 
 	if (MAF>0)
@@ -126,10 +117,10 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
 	snps$SaveFile("meQTL_filtered_input")
 
-	gene=setGeneOptions(sep,missing);
+	gene=fileOptions$gene;
 	gene$LoadFile(expression_file_name);
 
-	cvrt = setCovariateOptions(sep, missing);
+	cvrt = fileOptions$cvrt;
 	if(length(covariates_file_name)>0)
 	{
 		cvrt$LoadFile(covariates_file_name);
