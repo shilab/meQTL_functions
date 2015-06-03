@@ -6,28 +6,25 @@ test_that("setModel function works", {
 })
 
 test_that("setSNPOptions function works", {
-	snps<-setSNPOptions("\t", "NA")
+	fileOptions<-setFileOptions("\t","NA")
+	snps<-fileOptions$snps;
+	gene<-fileOptions$gene;
+	cvrt<-fileOptions$cvrt;
 	expect_equal(snps$fileDelimiter, "\t")
 	expect_equal(snps$fileOmitCharacters, "NA")
-	snps<-setSNPOptions(" ", "NaN")
-    expect_equal(snps$fileDelimiter, " ")
-    expect_equal(snps$fileOmitCharacters, "NaN")
-})
-
-test_that("setGeneOptions function works", {
-    gene<-setGeneOptions("\t", "NA")
     expect_equal(gene$fileDelimiter, "\t")
     expect_equal(gene$fileOmitCharacters, "NA")
-    gene<-setGeneOptions(" ", "NaN")
-    expect_equal(gene$fileDelimiter, " ")
-    expect_equal(gene$fileOmitCharacters, "NaN")
-})
-
-test_that("setCovariateOptions function works", {
-    cvrt<-setCovariateOptions("\t", "NA")
     expect_equal(cvrt$fileDelimiter, "\t")
     expect_equal(cvrt$fileOmitCharacters, "NA")
-    cvrt<-setCovariateOptions(" ", "NaN")
+
+	fileOptions<-setFileOptions(" ","NaN")
+	snps<-fileOptions$snps;
+    gene<-fileOptions$gene;
+    cvrt<-fileOptions$cvrt;
+    expect_equal(snps$fileDelimiter, " ")
+    expect_equal(snps$fileOmitCharacters, "NaN")
+    expect_equal(gene$fileDelimiter, " ")
+    expect_equal(gene$fileOmitCharacters, "NaN")
     expect_equal(cvrt$fileDelimiter, " ")
     expect_equal(cvrt$fileOmitCharacters, "NaN")
 })
