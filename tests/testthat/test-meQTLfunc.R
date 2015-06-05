@@ -6,7 +6,7 @@ test_that("setModel function works", {
 })
 
 test_that("setSNPOptions function works", {
-	fileOptions<-setFileOptions("\t","NA")
+	fileOptions<-setFileOptions("\t","NA",TRUE,TRUE)
 	snps<-fileOptions$snps;
 	gene<-fileOptions$gene;
 	cvrt<-fileOptions$cvrt;
@@ -17,7 +17,7 @@ test_that("setSNPOptions function works", {
     expect_equal(cvrt$fileDelimiter, "\t")
     expect_equal(cvrt$fileOmitCharacters, "NA")
 
-	fileOptions<-setFileOptions(" ","NaN")
+	fileOptions<-setFileOptions(" ","NaN",TRUE,TRUE)
 	snps<-fileOptions$snps;
     gene<-fileOptions$gene;
     cvrt<-fileOptions$cvrt;
@@ -27,4 +27,18 @@ test_that("setSNPOptions function works", {
     expect_equal(gene$fileOmitCharacters, "NaN")
     expect_equal(cvrt$fileDelimiter, " ")
     expect_equal(cvrt$fileOmitCharacters, "NaN")
+})
+
+test_that("skip rows with header", {
+	header<-TRUE
+	expect_equal(rowsToSkip(header),1)
+	header<-FALSE
+	expect_equal(rowsToSkip(header),0)
+})
+
+test_that("skip columns with rownames", {
+	rownames<-TRUE
+	expect_equal(colsToSkip(rownames),1)
+	rownames<-FALSE
+	expect_equal(colsToSkip(rownames),0)
 })
