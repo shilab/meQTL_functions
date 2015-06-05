@@ -1,22 +1,48 @@
-setFileOptions <- function(sep,missing)
+rowsToSkip <- function(header)
 {
+	if (header)
+	{
+		return(1);
+	}
+	else
+	{
+		return(0);
+	}
+}
+
+colsToSkip <- function(rownames)
+{
+	if (rownames)
+	{
+		return(1);
+	}
+	else
+	{
+		return(0);
+	}
+}
+
+setFileOptions <- function(sep,missing,header,rownames)
+{
+	skipRows = rowsToSkip(header);
+	skipCols = colsToSkip(rownames);
     snps = SlicedData$new();
     snps$fileDelimiter = sep;
     snps$fileOmitCharacters = missing;
-    snps$fileSkipRows = 1;
-    snps$fileSkipColumns = 1;
+	snps$fileSkipRows = skipRows;
+	snps$fileSkipColumns = skipCols;
     snps$fileSliceSize = 2000;
     gene = SlicedData$new();
     gene$fileDelimiter = sep;
     gene$fileOmitCharacters = missing; 
-    gene$fileSkipRows = 1;
-    gene$fileSkipColumns = 1;
+    gene$fileSkipRows = skipRows;
+    gene$fileSkipColumns = skipCols;
     gene$fileSliceSize = 2000;
     cvrt = SlicedData$new();
     cvrt$fileDelimiter = sep;
     cvrt$fileOmitCharacters = missing;
-    cvrt$fileSkipRows = 1;
-    cvrt$fileSkipColumns = 1;
+    cvrt$fileSkipRows = skipRows;
+    cvrt$fileSkipColumns = skipCols;
 	return(list("snps"=snps,"gene"=gene,"cvrt"=cvrt))
 }
 
@@ -44,7 +70,8 @@ setModel <-function(model)
 mxeqtl <-
 function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
          cis_pval,covariates="",trans_output_file="", trans_pval=0, 
-         model="linear", MAF=0, cis_dist=1e6, qq="", missing="NA", sep="\t")
+         model="linear", MAF=0, cis_dist=1e6, qq="", missing="NA", sep="\t", 
+		 header=TRUE,rownames=TRUE)
 {
 	# Matrix eQTL function based on the sample code by Andrey A. Shabalin
 	# http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
@@ -91,7 +118,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	# Distance for local gene-SNP pairs
 	cisDist = cis_dist;
 
-	fileOptions = setFileOptions(sep,missing);
+	fileOptions = setFileOptions(sep,missing,header,rownames);
 	snps = fileOptions$snps;
 	snps$LoadFile(SNP_file_name);
 
