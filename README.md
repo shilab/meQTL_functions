@@ -7,7 +7,6 @@ install_github('shilab/meQTL_functions')
 ```
 
 ``` {.r}
-library(MatrixEQTL)
 library(meQTLfunc)
 ```
 
