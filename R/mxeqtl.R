@@ -66,6 +66,18 @@ setModel <-function(model)
     }
 }
 
+getCovariates <-function(covariates)
+{
+	if (covariates!="")
+    {
+        return(covariates);
+    }
+    else
+    {
+        return(character());
+    }
+}
+
 #' @export
 mxeqtl <-
 function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
@@ -87,15 +99,9 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     gene_location_file_name = expr_location
 
     # Covariates file name
-    if (covariates!="")
-    {
-        covariates_file_name = covariates;
-        cat(covariates_file_name,'\n');
-    }
-    else
-    {
-        covariates_file_name = character();
-    }
+
+	covariates_file_name = getCovariates(covariates);
+
     # Output file name
     output_file_name = tempfile();
     output_file_name_cis = cis_output_file

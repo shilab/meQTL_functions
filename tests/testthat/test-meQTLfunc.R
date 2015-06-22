@@ -42,3 +42,8 @@ test_that("skip columns with rownames", {
 	rownames<-FALSE
 	expect_equal(colsToSkip(rownames),0)
 })
+
+test_that("covariates filename", {
+	expect_equal(getCovariates(''),character())
+	expect_equal(getCovariates('cov_file'),'cov_file')
+})
