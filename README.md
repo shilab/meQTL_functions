@@ -4,14 +4,10 @@
 meQTLfunc can be installed by using the devtools package.
 ```
 install_github('shilab/meQTL_functions')
-```
-
-``` {.r}
 library(meQTLfunc)
 ```
 
 ``` {.r}
-setwd('~/Development/Repos/meQTLfunctions/')
 me<-mxeqtl('CNV_matrix.out.filter','CNV_position','liver_expression.out.filter','gene_position','liver_cis_results',0.05)
 ```
 
