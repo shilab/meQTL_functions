@@ -122,12 +122,8 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
     useModel = setModel(model)
 
-    # Genotype file name
-#    SNP_file_name = snp_file
     snps_location_file_name = snp_location
 
-    # Gene expression file name
-#    expression_file_name = expr_file
     gene_location_file_name = expr_location
 
     # Covariates file name
@@ -135,7 +131,6 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	covariates_file_name = getCovFileName(covariates);
 
     # Output file name
-#    output_file_name = tempfile();
     output_file_name_cis = cis_output_file
     if (trans_output_file!="")
     {
@@ -156,7 +151,6 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     # Distance for local gene-SNP pairs
     cisDist = cis_dist;
 
-#    fileOptions = setFileOptions(sep,missing,header,rownames);
 	snps = getGenotypes(sep, missing, header, rownames, snp_file);
 
     if (MAF>0)
@@ -181,15 +175,8 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
     snps$SaveFile("meQTL_filtered_input")
 
-#    gene=fileOptions$gene;
-#    gene$LoadFile(expression_file_name);
 	gene = getExpression(sep, missing, header, rownames, expr_file);
 
-#    cvrt = fileOptions$cvrt;
-#    if(length(covariates_file_name)>0)
-#    {
-#        cvrt$LoadFile(covariates_file_name);
-#    }
 	cvrt = getCovariates(sep, missing, header, rownames, covariates_file_name);
 
     # Load the genotype and expression positions
