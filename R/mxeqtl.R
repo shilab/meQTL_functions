@@ -22,16 +22,28 @@ colsToSkip <- function(rownames)
     }
 }
 
-setFileOptions <- function(sep,missing,header,rownames)
+getGenotypes <- function(sep, missing, header, rownames, snp_filename)
 {
-    skipRows = rowsToSkip(header);
-    skipCols = colsToSkip(rownames);
+	if (!file.exists(snp_filename))
+	{
+		stop(snp_filename + ' does not exist');
+	}
+	skipRows = rowsToSkip(header);
+	skipCols = colsToSkip(rownames);
     snps = SlicedData$new();
     snps$fileDelimiter = sep;
     snps$fileOmitCharacters = missing;
     snps$fileSkipRows = skipRows;
     snps$fileSkipColumns = skipCols;
     snps$fileSliceSize = 2000;
+	snps$LoadFile(snp_filename);
+	return(snps);
+}
+
+setFileOptions <- function(sep,missing,header,rownames)
+{
+    skipRows = rowsToSkip(header);
+    skipCols = colsToSkip(rownames);
     gene = SlicedData$new();
     gene$fileDelimiter = sep;
     gene$fileOmitCharacters = missing; 
@@ -43,7 +55,7 @@ setFileOptions <- function(sep,missing,header,rownames)
     cvrt$fileOmitCharacters = missing;
     cvrt$fileSkipRows = skipRows;
     cvrt$fileSkipColumns = skipCols;
-    return(list("snps"=snps,"gene"=gene,"cvrt"=cvrt))
+    return(list("gene"=gene,"cvrt"=cvrt))
 }
 
 setModel <-function(model)
@@ -91,7 +103,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     useModel = setModel(model)
 
     # Genotype file name
-    SNP_file_name = snp_file
+#    SNP_file_name = snp_file
     snps_location_file_name = snp_location
 
     # Gene expression file name
@@ -103,7 +115,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 	covariates_file_name = getCovariates(covariates);
 
     # Output file name
-    output_file_name = tempfile();
+#    output_file_name = tempfile();
     output_file_name_cis = cis_output_file
     if (trans_output_file!="")
     {
@@ -125,8 +137,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     cisDist = cis_dist;
 
     fileOptions = setFileOptions(sep,missing,header,rownames);
-    snps = fileOptions$snps;
-    snps$LoadFile(SNP_file_name);
+	snps = getGenotypes(sep, missing, header, rownames, snp_file);
 
     if (MAF>0)
     {
