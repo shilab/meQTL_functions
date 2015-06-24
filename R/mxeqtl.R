@@ -26,7 +26,7 @@ getGenotypes <- function(sep, missing, header, rownames, snp_filename)
 {
 	if (!file.exists(snp_filename))
 	{
-		stop(snp_filename + ' does not exist');
+		stop(cat(snp_filename,' does not exist','\n'));
 	}
 	skipRows = rowsToSkip(header);
 	skipCols = colsToSkip(rownames);
@@ -40,22 +40,42 @@ getGenotypes <- function(sep, missing, header, rownames, snp_filename)
 	return(snps);
 }
 
-setFileOptions <- function(sep,missing,header,rownames)
+getExpression <- function(sep, missing, header, rownames, expr_filename)
 {
+    if (!file.exists(expr_filename))
+    {
+        stop(cat(expr_filename,' does not exist','\n'));
+    }
     skipRows = rowsToSkip(header);
-    skipCols = colsToSkip(rownames);
+    skipCols = colsToSkip(rownames);	
     gene = SlicedData$new();
     gene$fileDelimiter = sep;
-    gene$fileOmitCharacters = missing; 
+    gene$fileOmitCharacters = missing;
     gene$fileSkipRows = skipRows;
     gene$fileSkipColumns = skipCols;
     gene$fileSliceSize = 2000;
+	gene$LoadFile(expr_filename);
+	return(gene)
+}
+
+getCovariates <- function(sep, missing, header, rownames, cvrt_filename)
+{
+    skipRows = rowsToSkip(header);
+    skipCols = colsToSkip(rownames);
     cvrt = SlicedData$new();
     cvrt$fileDelimiter = sep;
     cvrt$fileOmitCharacters = missing;
     cvrt$fileSkipRows = skipRows;
-    cvrt$fileSkipColumns = skipCols;
-    return(list("gene"=gene,"cvrt"=cvrt))
+	if (length(cvrt_filename) == 0)
+	{
+		return(cvrt);
+	}
+    if (!file.exists(cvrt_filename))
+    {
+        stop(cat(cvrt_filename,' does not exist','\n'));
+    }
+	cvrt$LoadFile(cvrt_filename);
+    return(cvrt)
 }
 
 setModel <-function(model)
@@ -78,7 +98,7 @@ setModel <-function(model)
     }
 }
 
-getCovariates <-function(covariates)
+getCovFileName <-function(covariates)
 {
 	if (covariates!="")
     {
@@ -107,12 +127,12 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     snps_location_file_name = snp_location
 
     # Gene expression file name
-    expression_file_name = expr_file
+#    expression_file_name = expr_file
     gene_location_file_name = expr_location
 
     # Covariates file name
 
-	covariates_file_name = getCovariates(covariates);
+	covariates_file_name = getCovFileName(covariates);
 
     # Output file name
 #    output_file_name = tempfile();
@@ -136,7 +156,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     # Distance for local gene-SNP pairs
     cisDist = cis_dist;
 
-    fileOptions = setFileOptions(sep,missing,header,rownames);
+#    fileOptions = setFileOptions(sep,missing,header,rownames);
 	snps = getGenotypes(sep, missing, header, rownames, snp_file);
 
     if (MAF>0)
@@ -161,14 +181,16 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
     snps$SaveFile("meQTL_filtered_input")
 
-    gene=fileOptions$gene;
-    gene$LoadFile(expression_file_name);
+#    gene=fileOptions$gene;
+#    gene$LoadFile(expression_file_name);
+	gene = getExpression(sep, missing, header, rownames, expr_file);
 
-    cvrt = fileOptions$cvrt;
-    if(length(covariates_file_name)>0)
-    {
-        cvrt$LoadFile(covariates_file_name);
-    }
+#    cvrt = fileOptions$cvrt;
+#    if(length(covariates_file_name)>0)
+#    {
+#        cvrt$LoadFile(covariates_file_name);
+#    }
+	cvrt = getCovariates(sep, missing, header, rownames, covariates_file_name);
 
     # Load the genotype and expression positions
     snpspos = read.table(snps_location_file_name, header = TRUE, stringsAsFactors = FALSE);
