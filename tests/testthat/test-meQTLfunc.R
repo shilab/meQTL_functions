@@ -52,6 +52,16 @@ test_that("getCovariates function works", {
 	expect_equal(mat, expected_mat)
 })
 
+#TODO: Add test for filtering out snp
+test_that("MAF filtering works", {
+	snps<-getGenotypes("\t", "NA", TRUE, TRUE, 'data/snps')
+	filtsnps<-mafFilter(snps, 0)
+	expect_equal(snps, filtsnps)
+
+	filtsnps<-mafFilter(snps, 0.05)
+	expect_equal(snps, filtsnps)
+})
+
 test_that("skip rows with header", {
 	header<-TRUE
 	expect_equal(rowsToSkip(header),1)
