@@ -1,3 +1,4 @@
+#TODO: Refactor rowsToSkip and colsToSkip into one function
 rowsToSkip <- function(header)
 {
     if (header)
@@ -98,7 +99,6 @@ mafFilter <- function(snps, MAF)
     snps$RowReorder(maf>MAF);
     cat('SNPs after filtering:',nrow(snps),'\n');
     rm(maf, sl, maf.list);    
-    snps$SaveFile("meQTL_filtered_input")
     return(snps)
 }
 
@@ -146,10 +146,6 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
 
     useModel = setModel(model)
 
-    snps_location_file_name = snp_location
-
-    gene_location_file_name = expr_location
-
     # Covariates file name
 
     covariates_file_name = getCovFileName(covariates);
@@ -165,21 +161,15 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
         output_file_name_tra = "onlyTRANSresults.txt"
     }
 
-    # Set p-value levels
-    pvOutputThreshold_cis = cis_pval;
-    pvOutputThreshold_tra = trans_pval
-
     #TODO: Create option for errorCovariance
     errorCovariance = numeric();
-
-    # Distance for local gene-SNP pairs
-    cisDist = cis_dist;
 
     snps = getGenotypes(sep, missing, header, rownames, snp_file);
 
     if (MAF>0)
     {
         snps = mafFilter(snps, MAF);
+	    snps$SaveFile("meQTL_filtered_input")
     }
 
     gene = getExpression(sep, missing, header, rownames, expr_file);
@@ -187,8 +177,8 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     cvrt = getCovariates(sep, missing, header, rownames, covariates_file_name);
 
     # Load the genotype and expression positions
-    snpspos = read.table(snps_location_file_name, header = TRUE, stringsAsFactors = FALSE);
-    genepos = read.table(gene_location_file_name, header = TRUE, stringsAsFactors = FALSE);
+    snpspos = read.table(snp_location, header = TRUE, stringsAsFactors = FALSE);
+    genepos = read.table(expr_location, header = TRUE, stringsAsFactors = FALSE);
 
     #Call MatrixEQTL function
     me = Matrix_eQTL_main(
@@ -196,15 +186,15 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     gene = gene,
     cvrt = cvrt,
     output_file_name     = output_file_name_tra,
-    pvOutputThreshold     = pvOutputThreshold_tra,
+    pvOutputThreshold     = trans_pval,
     useModel = useModel,
     errorCovariance = errorCovariance,
     verbose = TRUE,
     output_file_name.cis = output_file_name_cis,
-    pvOutputThreshold.cis = pvOutputThreshold_cis,
+    pvOutputThreshold.cis = cis_pval,
     snpspos = snpspos,
     genepos = genepos,
-    cisDist = cisDist,
+    cisDist = cis_dist,
     pvalue.hist = "qqplot",
     min.pv.by.genesnp = TRUE,
     noFDRsaveMemory = FALSE);
