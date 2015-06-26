@@ -23,7 +23,7 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	# R. Armananzas and Andrew Quitadamo
 
 
-	corr  <- NULL; phenotype <- NULL; genotype <- NULL; phenotype_new<-NULL;
+	corr  <- NULL; phenotype <- NULL; genotype <- NULL;
 
 	if (cis==TRUE)
 	{
