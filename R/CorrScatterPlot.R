@@ -18,8 +18,7 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE)
   # expr and genot datafiles are in the matrixEQTL format and can be loaded as:
   # expr = read.table(file_name, header = TRUE, stringsAsFactors = FALSE);
   #
-  # R. Armananzas - Last update 12/02/13
-  #
+  # R. Armananzas & A. Quitadamo
   
   
   corr  <- NULL; phenotype <- NULL; genotype <- NULL
