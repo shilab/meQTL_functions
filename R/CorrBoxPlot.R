@@ -38,8 +38,8 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 
 	for (i in 1:nrow(eqtls))
 	{
-		phenotype[[i]] <- expr[which(expr[,1]==as.character(eqtls$gene[i])),2:ncol(expr)]
-		genotype[[i]]  <- genot[which(genot[,1]==as.character(eqtls$snps[i])),2:ncol(genot)]
+		phenotype[[i]] <- expr[which(rownames(expr)==as.character(eqtls$gene[i])),2:ncol(expr)]
+		genotype[[i]]  <- genot[which(rownames(genot)==as.character(eqtls$snps[i])),2:ncol(genot)]
 		corr[i]   <- cor(as.numeric(phenotype[[i]]),as.numeric(genotype[[i]]), use="pairwise.complete.obs")
 	}
 
