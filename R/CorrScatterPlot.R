@@ -36,8 +36,8 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE)
   
   for (i in 1:nrow(eqtls))
   {
-    phenotype[[i]] <- expr[which(expr$geneid==as.character(eqtls$gene[i])),2:ncol(expr)]
-    genotype[[i]]  <- genot[which(genot$snpid==as.character(eqtls$snps[i])),2:ncol(genot)]
+    phenotype[[i]] <- expr[which(rownames(expr)==as.character(eqtls$gene[i])),2:ncol(expr)]
+    genotype[[i]]  <- genot[which(rownames(genot)==as.character(eqtls$snps[i])),2:ncol(genot)]
     corr[i]   <- cor(as.numeric(phenotype[[i]]),as.numeric(genotype[[i]]))
   }
   
