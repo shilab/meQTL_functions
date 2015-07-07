@@ -43,26 +43,13 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE)
   
   if (visual)
   { #Perform the plots
-    #There can be three values (unphased) or four (phased)
     for (i in 1:nrow(eqtls))
     {
       #Prepare the matrix
       geno <- as.numeric(genotype[[i]])
       pheno <- as.numeric(phenotype[[i]])
-      #      geno
-      #      pdf("scatterplot.pdf")
-      #      #Plot the boxplots
-      #      if (length(genotypes)==3){cats=c(0,1,2)}
-      #      else {cats=c(0,1,2,3)}
-      #      scatterplot(values,boxwex=0.5,ylab=paste(as.character(eqtls$gene[i])," expression"), names=cats,
-      #              xlab=paste(as.character(eqtls$snps[i])," genotype","\nCorrelation: ",format(corr[i],2),
-      #                         "P-value: ",format(eqtls$pvalue[i],2)," FDR: ",format(eqtls$FDR[i],2)),
-      #              main=paste(as.character(eqtls$snps[i])," - ",as.character(eqtls$gene[i])))
       plot(pheno, geno, xlab="miRNA Expression", ylab="mRNA Expression", main = paste(as.character(eqtls$snps[i])," genotype","\nCorrelation: ",format(corr[i],2),"P-value: ",format(eqtls$pvalue[i],2)," FDR: ",format(eqtls$FDR[i],2)))
-      #	      abline(lm(geno ~ pheno)) 
-      
     }
-    #    dev.off()
   }
   return(corr)
 }
