@@ -62,18 +62,15 @@ test_that("MAF filtering works", {
 	expect_equal(snps, filtsnps)
 })
 
-test_that("skip rows with header", {
+test_that("skip rows and columns", {
 	header<-TRUE
-	expect_equal(rowsToSkip(header),1)
+	expect_equal(toSkip(header),1)
 	header<-FALSE
-	expect_equal(rowsToSkip(header),0)
-})
-
-test_that("skip columns with rownames", {
-	rownames<-TRUE
-	expect_equal(colsToSkip(rownames),1)
-	rownames<-FALSE
-	expect_equal(colsToSkip(rownames),0)
+	expect_equal(toSkip(header),0)
+    rownames<-TRUE
+    expect_equal(toSkip(rownames),1)
+    rownames<-FALSE
+    expect_equal(toSkip(rownames),0)	
 })
 
 test_that("covariates filename", {

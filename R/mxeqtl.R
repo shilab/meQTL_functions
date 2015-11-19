@@ -1,19 +1,6 @@
-#TODO: Refactor rowsToSkip and colsToSkip into one function
-rowsToSkip <- function(header)
+toSkip <- function(exists)
 {
-    if (header)
-    {
-        return(1);
-    }
-    else
-    {
-        return(0);
-    }
-}
-
-colsToSkip <- function(rownames)
-{
-    if (rownames)
+    if (exists)
     {
         return(1);
     }
@@ -29,8 +16,8 @@ getGenotypes <- function(sep, missing, header, rownames, snp_filename)
     {
         stop(cat(snp_filename,' does not exist','\n'));
     }
-    skipRows = rowsToSkip(header);
-    skipCols = colsToSkip(rownames);
+    skipRows = toSkip(header);
+    skipCols = toSkip(rownames);
     snps = SlicedData$new();
     snps$fileDelimiter = sep;
     snps$fileOmitCharacters = missing;
@@ -47,8 +34,8 @@ getExpression <- function(sep, missing, header, rownames, expr_filename)
     {
         stop(cat(expr_filename,' does not exist','\n'));
     }
-    skipRows = rowsToSkip(header);
-    skipCols = colsToSkip(rownames);    
+    skipRows = toSkip(header);
+    skipCols = toSkip(rownames);    
     gene = SlicedData$new();
     gene$fileDelimiter = sep;
     gene$fileOmitCharacters = missing;
@@ -61,8 +48,8 @@ getExpression <- function(sep, missing, header, rownames, expr_filename)
 
 getCovariates <- function(sep, missing, header, rownames, cvrt_filename)
 {
-    skipRows = rowsToSkip(header);
-    skipCols = colsToSkip(rownames);
+    skipRows = toSkip(header);
+    skipCols = toSkip(rownames);
     cvrt = SlicedData$new();
     cvrt$fileDelimiter = sep;
     cvrt$fileOmitCharacters = missing;
