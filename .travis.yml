@@ -6,6 +6,12 @@ r_packages:
 r_binary_packages: 
     - testthat
 
+r_github_packages:
+    - jimhester/covr
+
 notifications:
   webhooks: http://104.131.120.228:8080/hubot/travisci/general
   on_start: true
+
+after_success:
+  - Rscript -e 'covr::coveralls()'
