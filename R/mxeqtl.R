@@ -131,7 +131,7 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
     # Matrix eQTL function based on the sample code by Andrey A. Shabalin
     # http://www.bios.unc.edu/research/genomic_software/Matrix_eQTL/
 
-    useModel = setModel(model)
+    useModel = setModel(model) #nocov start
 
     # Covariates file name
 
@@ -202,5 +202,5 @@ function(snp_file,snp_location,expr_file,expr_location,cis_output_file,
         plot(me)
     }
 
-    return(me)
+    return(me) #nocov end
 }
