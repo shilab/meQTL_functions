@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/shilab/meQTL_functions.svg?branch=master)](https://travis-ci.org/shilab/meQTL_functions)
+[![Build Status](https://travis-ci.org/shilab/meQTL_functions.svg?branch=master)](https://travis-ci.org/shilab/meQTL_functions) [![Coverage Status](https://coveralls.io/repos/shilab/meQTL_functions/badge.svg?branch=master&service=github)](https://coveralls.io/github/shilab/meQTL_functions?branch=master)
 
 ###Installing
 meQTLfunc can be installed by using the devtools package.
