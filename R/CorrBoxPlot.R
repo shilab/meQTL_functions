@@ -24,23 +24,14 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 
 
 	corr  <- NULL; phenotype <- NULL; genotype <- NULL;
-
-	if (cis==TRUE)
-	{
-		index <- which(mEQTL$cis$eqtls$FDR<=threshold)
-		eqtls <- mEQTL$cis$eqtls[index,]
-	}
-	else
-	{
-		index <- which(mEQTL$trans$eqtls$FDR<=threshold)
-		eqtls <- mEQTL$trans$eqtls[index,]    
-	}
+	index <- getIndex(cis, mEQTL, threshold)
+	eqtls <- getEQTLS(cis, mEQTL, index)
 
 	for (i in 1:nrow(eqtls))
 	{
 		phenotype[[i]] <- expr[which(rownames(expr)==as.character(eqtls$gene[i])),2:ncol(expr)]
-		genotype[[i]]  <- genot[which(rownames(genot)==as.character(eqtls$snps[i])),2:ncol(genot)]
-		corr[i]   <- cor(as.numeric(phenotype[[i]]),as.numeric(genotype[[i]]), use="pairwise.complete.obs")
+		genotype[[i]] <- genot[which(rownames(genot)==as.character(eqtls$snps[i])),2:ncol(genot)]
+		corr[i] <- getCorr(phenotype[[i]], genotype[[i]])
 	}
 
 	if (visual)
@@ -76,4 +67,33 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 		}
 	}
 	return(corr)
+}
+
+getIndex <- function(cis, mEQTL, threshold)
+{
+	if (cis==TRUE)
+   	{
+       return(which(mEQTL$cis$eqtls$FDR<=threshold))
+	}
+	else
+	{
+		return(which(mEQTL$trans$eqtls$FDR<=threshold))
+	}
+}
+
+getEQTLS <- function(cis, mEQTL, index)
+{
+	if (cis==TRUE)
+	{
+		return(mEQTL$cis$eqtls[index,])
+	}
+	else
+	{
+		return(mEQTL$trans$eqtls[index,])		
+	}
+}
+
+getCorr <- function(phenotype, genotype)
+{
+	return(cor(as.numeric(phenotype),as.numeric(genotype), use="pairwise.complete.obs"))
 }
