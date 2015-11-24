@@ -23,16 +23,13 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	# R. Armananzas and Andrew Quitadamo
 
 
-	corr  <- NULL; phenotype <- NULL; genotype <- NULL;
 	index <- getIndex(cis, mEQTL, threshold)
 	eqtls <- getEQTLS(cis, mEQTL, index)
 
-	for (i in 1:nrow(eqtls))
-	{
-		phenotype[[i]] <- expr[which(rownames(expr)==as.character(eqtls$gene[i])),2:ncol(expr)]
-		genotype[[i]] <- genot[which(rownames(genot)==as.character(eqtls$snps[i])),2:ncol(genot)]
-		corr[i] <- getCorr(phenotype[[i]], genotype[[i]])
-	}
+	phenotype <- getEQTLPhenotypes(eqtls, expr)
+	genotype <- getEQTLGenotypes(eqtls, genot)
+
+	corr <- mapply(getCorr, phenotype, genotype)
 
 	if (visual)
 	{
@@ -96,4 +93,29 @@ getEQTLS <- function(cis, mEQTL, index)
 getCorr <- function(phenotype, genotype)
 {
 	return(cor(as.numeric(phenotype),as.numeric(genotype), use="pairwise.complete.obs"))
+}
+
+getEQTLPhenotypes <- function(eqtls, expr)
+{
+	phenotype<-NULL;
+	for(i in 1:nrow(eqtls))
+	{
+		phenotype[[i]] <- getSomething(expr, eqtls$gene[i])
+	}
+	return(phenotype)
+}
+
+getEQTLGenotypes <- function(eqtls, genot)
+{
+	genotype<-NULL;
+	for(i in 1:nrow(eqtls))
+	{
+			genotype[[i]] <- getSomething(genot, eqtls$snps[i])
+	}
+	return(genotype)
+}
+
+getSomething <- function(data, eqtldata)
+{
+	return(data[which(rownames(data)==as.character(eqtldata)),1:ncol(data)])
 }
