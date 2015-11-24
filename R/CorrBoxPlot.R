@@ -97,25 +97,20 @@ getCorr <- function(phenotype, genotype)
 
 getEQTLPhenotypes <- function(eqtls, expr)
 {
-	phenotype<-NULL;
-	for(i in 1:nrow(eqtls))
-	{
-		phenotype[[i]] <- getSomething(expr, eqtls$gene[i])
-	}
-	return(phenotype)
+	getPhenotypes <- getData(expr)
+	return(Map(getPhenotypes, eqtls$gene))
 }
 
 getEQTLGenotypes <- function(eqtls, genot)
 {
-	genotype<-NULL;
-	for(i in 1:nrow(eqtls))
-	{
-			genotype[[i]] <- getSomething(genot, eqtls$snps[i])
-	}
-	return(genotype)
+	getGenotypes <- getData(genot)
+	return(Map(getGenotypes, eqtls$snps))
 }
 
-getSomething <- function(data, eqtldata)
+getData <- function(data)
 {
-	return(data[which(rownames(data)==as.character(eqtldata)),1:ncol(data)])
+	function(eqtlID)
+	{
+		return(data[which(rownames(data)==as.character(eqtlID)),1:ncol(data)])
+	}
 }
