@@ -20,36 +20,23 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,cis=TRUE)
   #
   # R. Armananzas & A. Quitadamo
   
+    index <- getIndex(cis, mEQTL, threshold)
+	eqtls <- getEQTLS(cis, mEQTL, index)
   
-  corr  <- NULL; phenotype <- NULL; genotype <- NULL
-  
-  if (cis==TRUE)
-  {
-    index <- which(mEQTL$cis$eqtls$FDR<=threshold)
-    eqtls <- mEQTL$cis$eqtls[index,]
-  }
-  else
-  {
-    index <- which(mEQTL$trans$eqtls$FDR<=threshold)
-    eqtls <- mEQTL$trans$eqtls[index,]    
-  }
-  
-  for (i in 1:nrow(eqtls))
-  {
-    phenotype[[i]] <- expr[which(rownames(expr)==as.character(eqtls$gene[i])),2:ncol(expr)]
-    genotype[[i]]  <- genot[which(rownames(genot)==as.character(eqtls$snps[i])),2:ncol(genot)]
-    corr[i]   <- cor(as.numeric(phenotype[[i]]),as.numeric(genotype[[i]]))
-  }
-  
-  if (visual)
-  { #Perform the plots
-    for (i in 1:nrow(eqtls))
-    {
-      #Prepare the matrix
-      geno <- as.numeric(genotype[[i]])
-      pheno <- as.numeric(phenotype[[i]])
-      plot(pheno, geno, xlab="miRNA Expression", ylab="mRNA Expression", main = paste(as.character(eqtls$snps[i])," genotype","\nCorrelation: ",format(corr[i],2),"P-value: ",format(eqtls$pvalue[i],2)," FDR: ",format(eqtls$FDR[i],2)))
-    }
-  }
-  return(corr)
+    phenotype <- getEQTLPhenotypes(eqtls, expr)
+	genotype <- getEQTLGenotypes(eqtls, genot)
+
+    corr <- mapply(getCorr, phenotype, genotype)
+
+	if (visual)
+	{ #Perform the plots
+    	for (i in 1:nrow(eqtls))
+		{
+      	#Prepare the matrix
+			geno <- as.numeric(genotype[[i]])
+			pheno <- as.numeric(phenotype[[i]])
+			plot(pheno, geno, xlab="miRNA Expression", ylab="mRNA Expression", main = paste(as.character(eqtls$snps[i])," genotype","\nCorrelation: ",format(corr[i],2),"P-value: ",format(eqtls$pvalue[i],2)," FDR: ",format(eqtls$FDR[i],2)))
+		}
+	}
+	return(corr)
 }
