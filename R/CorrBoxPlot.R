@@ -4,8 +4,8 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	# Inputs:
 	#   mEQTL     - Matrix EQTL object with the eQTLs already collected
 	#   threshold - FDR cutoff, only those eQTLs with equal or lower threshold will be taken into account
-	#   expr      - Transcript expression dataset
-	#   genot     - Genotyping dataset, either phased or unphased variants
+	#   expr      - Expression filename
+	#   genot     - Genotype filename 
 	#   visual    - If TRUE the script will display a box plot figure for each eQTL above the threshold
 	#   pdf_file  - Filename for plots
 	#   crlt      - Correlation cutoff (default 0)
@@ -17,11 +17,11 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	# Obviously the original files from which mEQTL object was computed must match on transcript, variants
 	# and samples IDs included in expr and genot 
 	#
-	# expr and genot datafiles are in the matrixEQTL format and can be loaded as:
-	# expr = read.table(file_name, header = TRUE, stringsAsFactors = FALSE);
-	#
 	# R. Armananzas and Andrew Quitadamo
 
+
+	expr <- getFileData(expr)
+	genot <- getFileData(genot)
 
 	index <- getIndex(cis, mEQTL, threshold)
 	eqtls <- getEQTLS(cis, mEQTL, index)
@@ -114,4 +114,9 @@ getData <- function(data)
 	{
 		return(data[which(rownames(data)==as.character(eqtlID)),1:ncol(data)])
 	}
+}
+
+getFileData <- function(filename)
+{
+	return(read.table(filename, header = TRUE, stringsAsFactors = FALSE, row.names=1))
 }
