@@ -27,7 +27,15 @@ test_that("getEQTLS works", {
 	expect_equal(getEQTLS(FALSE,me,index),res)
 })
 
+#TODO: Add non-trivial correlation example
+#TODO: Add test with NAs
 test_that("getCorr works", {
-	phenotype <- c(1,1,1,2,2,2)
-	genotype <- c(1.5,1,1.5,2.5,2,2.5)	
+	genotype <- c(1,1,1,1,1,1,2,2,2,2,2,2)
+	phenotype <- c(1.5,1.5,1.5,1.5,1.5,1.5,2.5,2.5,2.5,2.5,2.5,2.5)	
+
+	expect_equal(getCorr(phenotype, genotype), c(1))
+
+	phenotype <- c(0,1,0,1,0,1,1,0,1,0,1,0)
+
+	expect_equal(getCorr(phenotype, genotype), c(0))
 })
