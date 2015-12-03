@@ -43,7 +43,11 @@ test_that("getCorr works", {
 test_that("getFileData works", {
 	readData <- getFileData('data/snps')
 	expectedData <- data.frame(p1=c(1,0,0),p2=c(2,2,2),p3=c(0,2,1),p4=c(1,0,2),p5=c(2,2,2))
-	rownames(expectedData)<-c('snp1','snp2','snp3')
-	
+	rownames(expectedData) <- c('snp1','snp2','snp3')
+	expect_equal(readData,expectedData)
+
+	readData <- getFileData('data/expr')
+	expectedData <- data.frame(p1=c(2.86511,7.171009,4.036252),p2=c(2.574775,8.350821,1.955288),p3=c(5.352287,7.714878,2.051268),p4=c(3.849516,7.249339,2.697464),p5=c(3.019739,5.440955,1.892165))
+	rownames(expectedData) <- c('gene1','gene2','gene3')
 	expect_equal(readData,expectedData)
 })
