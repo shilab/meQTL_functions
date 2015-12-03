@@ -20,7 +20,7 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	# R. Armananzas and Andrew Quitadamo
 
 
-	expr <- getFileData(expr)
+	expr <- getFileData(expr) #nocov start
 	genot <- getFileData(genot)
 
 	index <- getIndex(cis, mEQTL, threshold)
@@ -29,7 +29,7 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	phenotype <- getEQTLPhenotypes(eqtls, expr)
 	genotype <- getEQTLGenotypes(eqtls, genot)
 
-	corr <- mapply(getCorr, phenotype, genotype)
+	corr <- mapply(getCorr, phenotype, genotype) #nocov end
 
 	if (visual)
 	{
@@ -38,7 +38,6 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 			pdf(pdf_file)
 			par(mfcol = c(2, 2))
 		}
-
 
 		for (i in 1:nrow(eqtls))
 		{
@@ -67,6 +66,7 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	return(corr)
 }
 
+#TODO: Fix result when nothing is returned
 getIndex <- function(cis, mEQTL, threshold)
 {
 	if (cis==TRUE)

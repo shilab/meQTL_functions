@@ -17,7 +17,7 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,pdf_file="",
   #
   # R. Armananzas & A. Quitadamo
   
-	expr <- getFileData(expr)
+	expr <- getFileData(expr) #nocov start
 	genot <- getFileData(genot)
 
 	index <- getIndex(cis, mEQTL, threshold)
@@ -26,7 +26,7 @@ CorrScatterPlot <- function (mEQTL,threshold,expr,genot,visual=TRUE,pdf_file="",
 	phenotype <- getEQTLPhenotypes(eqtls, expr)
 	genotype <- getEQTLGenotypes(eqtls, genot)
 
-	corr <- mapply(getCorr, phenotype, genotype)
+	corr <- mapply(getCorr, phenotype, genotype) #nocov end
 
 	if (visual)
 	{ #Perform the plots
