@@ -39,3 +39,11 @@ test_that("getCorr works", {
 
 	expect_equal(getCorr(phenotype, genotype), c(0))
 })
+
+test_that("getFileData works", {
+	readData <- getFileData('data/snps')
+	expectedData <- data.frame(p1=c(1,0,0),p2=c(2,2,2),p3=c(0,2,1),p4=c(1,0,2),p5=c(2,2,2))
+	rownames(expectedData)<-c('snp1','snp2','snp3')
+	
+	expect_equal(readData,expectedData)
+})
