@@ -3,6 +3,9 @@ language: r
 r_packages: 
     - MatrixEQTL
 
+bioc_packages:
+	- preprocessCore
+
 r_binary_packages: 
     - testthat
 
