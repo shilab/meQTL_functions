@@ -4,7 +4,7 @@ r_packages:
     - MatrixEQTL
 
 bioc_packages:
-	- preprocessCore
+    - preprocessCore
 
 r_binary_packages: 
     - testthat
