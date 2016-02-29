@@ -53,9 +53,9 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 			if (abs(corr[i])>=crlt)
 			{
 				boxplot(values,boxwex=0.5,ylab=paste(as.character(eqtls$gene[i])," expression"), names=genotypes,
-					xlab=paste(as.character(eqtls$snps[i])," genotype","\nCorrelation: ",format(corr[i],2),
-					"P-value: ",format(eqtls$pvalue[i],2)," FDR: ",format(eqtls$FDR[i],2)),
-		  			main=paste(as.character(eqtls$snps[i])," - ",as.character(eqtls$gene[i])))
+					xlab=paste(as.character(eqtls$SNP[i])," genotype","\nCorrelation: ",format(corr[i],2),
+					"P-value: ",format(eqtls$p.value[i],2)," FDR: ",format(eqtls$FDR[i],2)),
+		  			main=paste(as.character(eqtls$SNP[i])," - ",as.character(eqtls$gene[i])))
 			}
 		}
 		if (pdf_file!="")
@@ -105,7 +105,7 @@ getEQTLPhenotypes <- function(eqtls, expr)
 getEQTLGenotypes <- function(eqtls, genot)
 {
 	getGenotypes <- getData(genot)
-	return(Map(getGenotypes, eqtls$snps))
+	return(Map(getGenotypes, eqtls$SNP))
 }
 
 getData <- function(data)
