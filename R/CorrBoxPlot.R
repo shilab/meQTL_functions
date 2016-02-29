@@ -41,7 +41,7 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 
 		for (i in 1:nrow(eqtls))
 		{
-			genotypes <- min(genotype[[i]]):max(genotype[[i]])
+			genotypes <- min(genotype[[i]],na.rm=T):max(genotype[[i]],na.rm=T)
 			#Prepare the matrix
 			pheno <- as.numeric(phenotype[[i]])
 			values <- list();
