@@ -19,6 +19,7 @@ CorrBoxPlot <- function (mEQTL,threshold,expr,genot,visual=FALSE,pdf_file="",crl
 	#
 	# R. Armananzas and Andrew Quitadamo
 
+	library(readr)
 
 	expr <- getFileData(expr) #nocov start
 	genot <- getFileData(genot)
@@ -112,11 +113,11 @@ getData <- function(data)
 {
 	function(eqtlID)
 	{
-		return(data[which(rownames(data)==as.character(eqtlID)),1:ncol(data)])
+		return(data[which(data[,1]==as.character(eqtlID)),2:ncol(data)])
 	}
 }
 
 getFileData <- function(filename)
 {
-	return(read.table(filename, header = TRUE, stringsAsFactors = FALSE, row.names=1))
+	return(read_delim(filename, delim='\t'))
 }
