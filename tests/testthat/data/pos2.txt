@@ -1,0 +1,1 @@
+snpid	chr	possnp1	chr1	pos1snp2	chr2	pos2
